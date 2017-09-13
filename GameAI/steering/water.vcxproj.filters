@@ -55,6 +55,12 @@
     <ClCompile Include="GraphicsBufferManager.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="UnitManager.cpp">
+      <Filter>NewStuff\CPPs</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>NewStuff\CPPs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsBuffer.h">
@@ -111,6 +117,12 @@
     <ClInclude Include="GraphicsBufferManager.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="UnitManager.h">
+      <Filter>NewStuff\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>NewStuff\Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
@@ -148,6 +160,15 @@
     </Filter>
     <Filter Include="Source Files\Units">
       <UniqueIdentifier>{820b8d07-ae99-4b13-b15d-e6e6c1e3fbbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NewStuff">
+      <UniqueIdentifier>{b914c768-0aae-4a27-b48e-bd3576d01306}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NewStuff\CPPs">
+      <UniqueIdentifier>{b79d1f41-0e19-4f1c-a668-dd276d4fa905}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NewStuff\Headers">
+      <UniqueIdentifier>{d2618c0e-76dc-4066-b69a-9ae38ecd9834}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
