@@ -1,7 +1,9 @@
 #ifndef INPUTMANAGER_H
 #define INPUTMANAGER_H
 
-class InputManager
+#include "Trackable.h"
+
+class InputManager : public Trackable
 {
 	private :
 

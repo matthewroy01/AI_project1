@@ -2,10 +2,11 @@
 #define UNITMANAGER_H
 
 #include <vector>
+#include "Trackable.h"
 
 class Unit;
 
-class UnitManager
+class UnitManager : public Trackable
 {
 	private :
 		std::vector <Unit*> mpUnits;
