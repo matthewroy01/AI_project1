@@ -21,6 +21,10 @@
 #include "KinematicUnit.h"
 #include "PlayerMoveToMessage.h"
 
+// new stuff
+#include "UnitManager.h"
+#include "InputManager.h"
+
 Game* gpGame = NULL;
 
 const int WIDTH = 1024;
@@ -36,7 +40,9 @@ Game::Game()
 	,mpFont(NULL)
 	,mpSample(NULL)
 	,mBackgroundBufferID(INVALID_ID)
-	//,mSmurfBufferID(INVALID_ID)
+	// new stuff
+	,mpUnitManager()
+	,mpInputManager()
 {
 }
 
@@ -177,21 +183,26 @@ bool Game::init()
 		pEnemyArrow = mpSpriteManager->createAndManageSprite( AI_ICON_SPRITE_ID, pAIBuffer, 0, 0, pAIBuffer->getWidth(), pAIBuffer->getHeight() );
 	}
 
+	mpUnitManager = new UnitManager();
+
 	//setup units
 	Vector2D pos( 0.0f, 0.0f );
 	Vector2D vel( 0.0f, 0.0f );
-	mpUnit = new KinematicUnit( pArrowSprite, pos, 1, vel, 0.0f, 200.0f, 10.0f );
+	mpUnitManager->AddUnit(new KinematicUnit(pArrowSprite, pos, 1, vel, 0.0f, 200.0f, 10.0f), 0);
+	//mpUnit = new KinematicUnit( pArrowSprite, pos, 1, vel, 0.0f, 200.0f, 10.0f );
 	
 	Vector2D pos2( 1000.0f, 500.0f );
 	Vector2D vel2( 0.0f, 0.0f );
-	mpAIUnit = new KinematicUnit( pEnemyArrow, pos2, 1, vel2, 0.0f, 180.0f, 100.0f );
+	mpUnitManager->AddUnit(new KinematicUnit(pEnemyArrow, pos2, 1, vel2, 0.0f, 180.0f, 100.0f), 1);
+	//mpAIUnit = new KinematicUnit( pEnemyArrow, pos2, 1, vel2, 0.0f, 180.0f, 100.0f );
 	//give steering behavior
-	mpAIUnit->dynamicArrive( mpUnit ); 
+	//mpAIUnit->dynamicArrive(mpUnitManager->GetUnit(0));
 
 	Vector2D pos3( 500.0f, 500.0f );
-	mpAIUnit2 = new KinematicUnit( pEnemyArrow, pos3, 1, vel2, 0.0f, 180.0f, 100.0f );
+	mpUnitManager->AddUnit(new KinematicUnit(pEnemyArrow, pos3, 1, vel2, 0.0f, 180.0f, 100.0f), 2);
+	//mpAIUnit2 = new KinematicUnit( pEnemyArrow, pos3, 1, vel2, 0.0f, 180.0f, 100.0f );
 	//give steering behavior
-	mpAIUnit2->dynamicSeek( mpUnit );  
+	//mpAIUnit2->dynamicSeek(mpUnitManager->GetUnit(0));
 
 	return true;
 }
@@ -199,12 +210,12 @@ bool Game::init()
 void Game::cleanup()
 {
 	//delete units
-	delete mpUnit;
+	/*delete mpUnit;
 	mpUnit = NULL;
 	delete mpAIUnit;
 	mpAIUnit = NULL;
 	delete mpAIUnit2;
-	mpAIUnit2 = NULL;
+	mpAIUnit2 = NULL;*/
 
 	//delete the timers
 	delete mpLoopTimer;
@@ -228,6 +239,12 @@ void Game::cleanup()
 	al_destroy_font(mpFont);
 	mpFont = NULL;
 
+	// new stuff
+	delete mpUnitManager;
+	mpUnitManager = NULL;
+	delete mpInputManager;
+	mpInputManager = NULL;
+
 	//shutdown components
 	al_uninstall_audio();
 	al_shutdown_image_addon();
@@ -247,18 +264,20 @@ void Game::beginLoop()
 void Game::processLoop()
 {
 	//update units
-	mpUnit->update( LOOP_TARGET_TIME/1000.0f );
-	mpAIUnit->update( LOOP_TARGET_TIME/1000.0f );
-	mpAIUnit2->update( LOOP_TARGET_TIME/1000.0f );
+	//mpUnit->update( LOOP_TARGET_TIME/1000.0f );
+	//mpAIUnit->update( LOOP_TARGET_TIME/1000.0f );
+	//mpAIUnit2->update( LOOP_TARGET_TIME/1000.0f );
+	mpUnitManager->UnitUpdate(LOOP_TARGET_TIME / 1000.0f);
 	
 	//draw background
 	Sprite* pBackgroundSprite = mpSpriteManager->getSprite( BACKGROUND_SPRITE_ID );
 	pBackgroundSprite->draw( *(mpGraphicsSystem->getBackBuffer()), 0, 0 );
 
 	//draw units
-	mpUnit->draw( GRAPHICS_SYSTEM->getBackBuffer() );
-	mpAIUnit->draw( GRAPHICS_SYSTEM->getBackBuffer() );
-	mpAIUnit2->draw( GRAPHICS_SYSTEM->getBackBuffer() );
+	//mpUnit->draw( GRAPHICS_SYSTEM->getBackBuffer() );
+	//mpAIUnit->draw( GRAPHICS_SYSTEM->getBackBuffer() );
+	//mpAIUnit2->draw( GRAPHICS_SYSTEM->getBackBuffer() );
+	mpUnitManager->UnitDraw(GRAPHICS_SYSTEM->getBackBuffer());
 
 	mpMessageManager->processMessagesForThisframe();
 
@@ -318,6 +337,11 @@ float genRandomFloat()
 {
 	float r = (float)rand()/(float)RAND_MAX;
 	return r;
+}
+
+KinematicUnit* Game::getPlayerUnit()
+{
+	return mpUnitManager->GetUnit(0);
 }
 
 /*#include "System.h"

@@ -4,19 +4,25 @@
 #include <vector>
 #include "Trackable.h"
 
-class Unit;
+class Kinematic;
+class KinematicUnit;
+class GraphicsBuffer;
 
 class UnitManager : public Trackable
 {
 	private :
-		std::vector <Unit*> mpUnits;
+		std::vector <KinematicUnit*> mpUnits;
 
 	public :
 		UnitManager();
 		~UnitManager();
 
-		void AddUnit(Unit* uni);
-		void RemoveUnit(Unit* uni);
+		void AddUnit(KinematicUnit* uni, int AItype);
+		void RemoveUnit(KinematicUnit* uni);
+		KinematicUnit* GetUnit(int id);
+
+		void UnitUpdate(float t);
+		void UnitDraw(GraphicsBuffer* buffer);
 };
 
 #endif
