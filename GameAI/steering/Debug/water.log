@@ -1,4 +1,2 @@
-﻿DynamicArriveSteering.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
-KinematicUnit.obj : error LNK2019: unresolved external symbol "public: class KinematicUnit * __thiscall Game::getPlayerUnit(void)" (?getPlayerUnit@Game@@QAEPAVKinematicUnit@@XZ) referenced in function "public: void __thiscall KinematicUnit::dynamicArrive(class KinematicUnit *)" (?dynamicArrive@KinematicUnit@@QAEXPAV1@@Z)
-PlayerMoveToMessage.obj : error LNK2001: unresolved external symbol "public: class KinematicUnit * __thiscall Game::getPlayerUnit(void)" (?getPlayerUnit@Game@@QAEPAVKinematicUnit@@XZ)
-F:\AI\AI_project1\GameAI\steering\Debug\steering.exe : fatal error LNK1120: 1 unresolved externals
+﻿  KinematicUnit.cpp
+f:\ai\ai_project1\gameai\steering\kinematicunit.cpp : fatal error C1041: cannot open program database 'F:\AI\AI_project1\GameAI\steering\Debug\vc141.idb'; if multiple CL.EXE write to the same .PDB file, please use /FS

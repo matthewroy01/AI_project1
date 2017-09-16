@@ -47,9 +47,10 @@ public:
 	inline Timer* getMasterTimer() const { return mpMasterTimer; };
 	inline double getCurrentTime() const { return mpMasterTimer->getElapsedTime(); };
 	inline ALLEGRO_FONT* getFont() const { return mpFont; };
+	inline UnitManager* getUnitManager() const { return mpUnitManager; };
 
-	inline KinematicUnit* getPlayerUnit();//should be someplace else
-	/*inline KinematicUnit* getAIUnit() { return mpAIUnit; };//should be someplace else
+	/*inline KinematicUnit* getPlayerUnit();//should be someplace else
+	inline KinematicUnit* getAIUnit() { return mpAIUnit; };//should be someplace else
 	inline KinematicUnit* getAIUnit2() { return mpAIUnit2; };//should be someplace else*/
 
 private:

@@ -339,11 +339,6 @@ float genRandomFloat()
 	return r;
 }
 
-KinematicUnit* Game::getPlayerUnit()
-{
-	return mpUnitManager->GetUnit(0);
-}
-
 /*#include "System.h"
 #include "Game.h"
 #include "GameMessageManager.h"
