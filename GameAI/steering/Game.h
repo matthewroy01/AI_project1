@@ -15,6 +15,7 @@ class SpriteManager;
 class KinematicUnit;
 class GameMessageManager;
 class Timer;
+class Sprite;
 
 // new stuff
 class UnitManager;
@@ -47,11 +48,14 @@ public:
 	inline Timer* getMasterTimer() const { return mpMasterTimer; };
 	inline double getCurrentTime() const { return mpMasterTimer->getElapsedTime(); };
 	inline ALLEGRO_FONT* getFont() const { return mpFont; };
-	inline UnitManager* getUnitManager() const { return mpUnitManager; };
 
-	/*inline KinematicUnit* getPlayerUnit();//should be someplace else
-	inline KinematicUnit* getAIUnit() { return mpAIUnit; };//should be someplace else
-	inline KinematicUnit* getAIUnit2() { return mpAIUnit2; };//should be someplace else*/
+	// new stuff
+	inline UnitManager* getUnitManager() const { return mpUnitManager; };
+	static Game* getInstance();
+	inline void setShouldExit(bool newVal) { mShouldExit = newVal; };
+	void createArriveUnit();
+	void createSeekUnit();
+	void deleteRandomUnit();
 
 private:
 	GraphicsSystem* mpGraphicsSystem;
@@ -61,6 +65,7 @@ private:
 	Timer* mpLoopTimer;
 	Timer* mpMasterTimer;
 	bool mShouldExit;
+	Sprite* mpEnemyArrow;
 	
 	// new stuff
 	UnitManager* mpUnitManager;
@@ -72,10 +77,6 @@ private:
 	IDType mBackgroundBufferID;
 	IDType mPlayerIconBufferID;
 	IDType mEnemyIconBufferID;
-
-	/*KinematicUnit* mpUnit;
-	KinematicUnit* mpAIUnit;
-	KinematicUnit* mpAIUnit2;*/
 };
 
 float genRandomBinomial();//range -1:1 from "Artificial Intelligence for Games", Millington and Funge

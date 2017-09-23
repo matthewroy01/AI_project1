@@ -19,6 +19,7 @@ class UnitManager : public Trackable
 
 		void AddUnit(KinematicUnit* uni, int AItype);
 		void RemoveUnit(KinematicUnit* uni);
+		void RemoveRandomUnit();
 		KinematicUnit* GetUnit(int id);
 
 		void UnitUpdate(float t);

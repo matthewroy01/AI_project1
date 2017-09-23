@@ -61,6 +61,15 @@
     <ClCompile Include="InputManager.cpp">
       <Filter>NewStuff\CPPs</Filter>
     </ClCompile>
+    <ClCompile Include="UnitCreateArriveMessage.cpp">
+      <Filter>Source Files\Messaging</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitCreateSeekMessage.cpp">
+      <Filter>Source Files\Messaging</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitDeleteRandomMessage.cpp">
+      <Filter>Source Files\Messaging</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsBuffer.h">
@@ -122,6 +131,15 @@
     </ClInclude>
     <ClInclude Include="InputManager.h">
       <Filter>NewStuff\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitCreateArriveMessage.h">
+      <Filter>Header Files\Messaging</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitCreateSeekMessage.h">
+      <Filter>Header Files\Messaging</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitDeleteRandomMessage.h">
+      <Filter>Header Files\Messaging</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

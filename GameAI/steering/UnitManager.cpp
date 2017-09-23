@@ -1,6 +1,8 @@
 #include "UnitManager.h"
 
 #include "KinematicUnit.h"
+#include <cstdlib>
+#include "Game.h"
 
 UnitManager::UnitManager()
 {
@@ -9,7 +11,13 @@ UnitManager::UnitManager()
 
 UnitManager::~UnitManager()
 {
-
+	for (unsigned int i = 0; i < mpUnits.size(); i++)
+	{
+		if (mpUnits[i] != NULL)
+		{
+			delete mpUnits[i];
+		}
+	}
 }
 
 void UnitManager::AddUnit(KinematicUnit* uni, int AItype)
@@ -47,8 +55,34 @@ void UnitManager::AddUnit(KinematicUnit* uni, int AItype)
 
 void UnitManager::RemoveUnit(KinematicUnit* uni)
 {
+	
+}
+
+void UnitManager::RemoveRandomUnit()
+{
 	// when user hits the 'D' key, delete a random unit (not the player)
 	// when all units (besides the player) are deleted, exit the game
+
+	srand(time(NULL));
+	unsigned int seed;
+
+	if (mpUnits.size() > 1)
+	{
+		seed = rand() % (mpUnits.size() - 1) + 1;
+	}
+	else
+	{
+		KinematicUnit* tmp = mpUnits[0];
+		mpUnits.erase(mpUnits.begin());
+		delete tmp;
+
+		GET_GAME->setShouldExit(true);
+		return;
+	}
+
+	KinematicUnit* tmp = mpUnits[seed];
+	mpUnits.erase(mpUnits.begin() + seed);
+	delete tmp;
 }
 
 KinematicUnit* UnitManager::GetUnit(int id)
