@@ -11,6 +11,7 @@ UnitManager::UnitManager()
 
 UnitManager::~UnitManager()
 {
+	// delete all units in the vector
 	for (unsigned int i = 0; i < mpUnits.size(); i++)
 	{
 		if (mpUnits[i] != NULL)
@@ -35,31 +36,30 @@ void UnitManager::AddUnit(KinematicUnit* uni, int AItype)
 		case 1:
 		{
 			// dynamic arrive
+
+			// when user hits the 'A' key, add a unit exactly 200 pixels away from the player's location
+			// this new unit tries to ARRIVE at the player's current location
+
 			mpUnits[mpUnits.size() - 1]->dynamicArrive(GetUnit(0));
 			break;
 		}
 		case 2:
 		{
 			// dynamic seek
+
+			// when user hits the 'S' key, add a unit exactly 200 pixels away from the player's location
+			// this new unit tries to SEEK at the player's current location
+
 			mpUnits[mpUnits.size() - 1]->dynamicSeek(GetUnit(0));
 			break;
 		}
 	}
-	// when user hits the 'A' key, add a unit exactly 200 pixels away from the player's location
-	// this new unit tries to ARRIVE at the player's current location
-
-
-	// when user hits the 'S' key, add a unit exactly 200 pixels away from the player's location
-	// this new unit tries to SEEK at the player's current location
-}
-
-void UnitManager::RemoveUnit(KinematicUnit* uni)
-{
-	
 }
 
 void UnitManager::RemoveRandomUnit()
 {
+	//delete unit
+
 	// when user hits the 'D' key, delete a random unit (not the player)
 	// when all units (besides the player) are deleted, exit the game
 
@@ -77,6 +77,7 @@ void UnitManager::RemoveRandomUnit()
 		delete tmp;
 
 		GET_GAME->setShouldExit(true);
+
 		return;
 	}
 
@@ -87,11 +88,20 @@ void UnitManager::RemoveRandomUnit()
 
 KinematicUnit* UnitManager::GetUnit(int id)
 {
-	return mpUnits[id];
+	// return the unit at the specfied id
+	if (mpUnits[id] != NULL)
+	{
+		return mpUnits[id];
+	}
+	else
+	{
+		return NULL;
+	}
 }
 
 void UnitManager::UnitDraw(GraphicsBuffer* buffer)
 {
+	// draw all units
 	for (unsigned int i = 0; i < mpUnits.size(); i++)
 	{
 		mpUnits[i]->draw(buffer);
@@ -100,6 +110,7 @@ void UnitManager::UnitDraw(GraphicsBuffer* buffer)
 
 void UnitManager::UnitUpdate(float t)
 {
+	// update all units
 	for (unsigned int i = 0; i < mpUnits.size(); i++)
 	{
 		mpUnits[i]->update(t);

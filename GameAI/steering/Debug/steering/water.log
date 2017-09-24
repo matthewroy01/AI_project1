@@ -1,3 +1,16 @@
-﻿  UnitManager.cpp
+﻿  Game.cpp
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  main.cpp
+  UnitManager.cpp
+  UnitDeleteRandomMessage.cpp
+  UnitCreateSeekMessage.cpp
+  UnitCreateArriveMessage.cpp
+  PlayerMoveToMessage.cpp
+  KinematicWanderSteering.cpp
+  KinematicUnit.cpp
+  InputManager.cpp
+  GraphicsSystem.cpp
+  GameMessageManager.cpp
   water.vcxproj -> D:\AI\AI_project1\GameAI\steering\Debug\steering.exe
   water.vcxproj -> D:\AI\AI_project1\GameAI\steering\Debug\steering.pdb (Full PDB)

@@ -47,7 +47,6 @@ public:
 	inline GameMessageManager* getMessageManager() { return mpMessageManager; };
 	inline Timer* getMasterTimer() const { return mpMasterTimer; };
 	inline double getCurrentTime() const { return mpMasterTimer->getElapsedTime(); };
-	inline ALLEGRO_FONT* getFont() const { return mpFont; };
 
 	// new stuff
 	inline UnitManager* getUnitManager() const { return mpUnitManager; };
@@ -71,8 +70,10 @@ private:
 	UnitManager* mpUnitManager;
 	InputManager* mpInputManager;
 
+	const int SPAWN_DISTANCE_ARRIVE = 200;
+	const int SPAWN_DISTANCE_SEEK = 100;
+
 	//should be somewhere else
-	ALLEGRO_FONT* mpFont;
 	ALLEGRO_SAMPLE* mpSample;
 	IDType mBackgroundBufferID;
 	IDType mPlayerIconBufferID;

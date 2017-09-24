@@ -1,13 +1,5 @@
 #include "InputManager.h"
 
-#include <allegro5/allegro.h>
-#include <allegro5/allegro_audio.h>
-#include <allegro5/allegro_acodec.h>
-#include <allegro5/allegro_image.h>
-#include <allegro5/allegro_font.h>
-#include <allegro5/allegro_ttf.h>
-#include <allegro5/allegro_primitives.h>
-
 #include "GameMessageManager.h"
 #include "PlayerMoveToMessage.h"
 #include "UnitCreateArriveMessage.h"
@@ -15,29 +7,71 @@
 #include "UnitDeleteRandomMessage.h"
 #include "Game.h"
 #include "GraphicsSystem.h"
-#include "Vector2D.h"
-#include <sstream>
-#include <stdio.h>
 
 InputManager::InputManager()
 {
 	mAdown = false;
 	mSdown = false;
 	mDdown = false;
+
+	if (!init())
+	{
+		// something wasn't installed
+	}
 }
 
 InputManager::~InputManager()
 {
+	// delete the font
+	al_destroy_font(mpFont);
+	mpFont = NULL;
+}
 
+bool InputManager::init()
+{
+	if (!al_install_keyboard())
+	{
+		printf("Keyboard not installed!\n");
+		return false;
+	}
+
+	if (!al_install_mouse())
+	{
+		printf("Mouse not installed!\n");
+		return false;
+	}
+
+	al_init_font_addon();
+	if (!al_init_ttf_addon())
+	{
+		printf("ttf font addon not initted properly!\n");
+		return false;
+	}
+
+	// install font
+	al_init_font_addon();
+	if (!al_init_ttf_addon())
+	{
+		printf("ttf font addon not initted properly!\n");
+		return false;
+	}
+
+	//actually load the font
+	mpFont = al_load_ttf_font("cour.ttf", 20, 0);
+	if (mpFont == NULL)
+	{
+		printf("ttf font file not loaded properly!\n");
+		return false;
+	}
+
+	return true;
 }
 
 void InputManager::Update()
 {
-	//get input - should be moved someplace better
-	ALLEGRO_MOUSE_STATE mouseState;
+	//left mouse click
 	al_get_mouse_state(&mouseState);
-
-	if (al_mouse_button_down(&mouseState, 1))//left mouse click
+	if (al_mouse_button_down(&mouseState, 1))
 	{
 		Vector2D pos(mouseState.x, mouseState.y);
 		GameMessage* pMessage = new PlayerMoveToMessage(pos);
@@ -49,12 +83,11 @@ void InputManager::Update()
 	mousePos << mouseState.x << ":" << mouseState.y;
 
 	//write text at mouse position
-	al_draw_text(GET_GAME->getFont(), al_map_rgb(255, 255, 255), mouseState.x, mouseState.y, ALLEGRO_ALIGN_CENTRE, mousePos.str().c_str());
+	al_draw_text(mpFont, al_map_rgb(255, 255, 255), mouseState.x, mouseState.y, ALLEGRO_ALIGN_CENTRE, mousePos.str().c_str());
 
 	GRAPHICS_SYSTEM->swap();
 
 	//get current keyboard state
-	ALLEGRO_KEYBOARD_STATE keyState;
 	al_get_keyboard_state(&keyState);
 
 	//if 'escape' key was down then exit the loop

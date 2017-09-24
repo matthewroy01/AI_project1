@@ -11,6 +11,7 @@ class GraphicsBuffer;
 class UnitManager : public Trackable
 {
 	private :
+		// a vector of all the units in the scene
 		std::vector <KinematicUnit*> mpUnits;
 
 	public :
@@ -18,7 +19,6 @@ class UnitManager : public Trackable
 		~UnitManager();
 
 		void AddUnit(KinematicUnit* uni, int AItype);
-		void RemoveUnit(KinematicUnit* uni);
 		void RemoveRandomUnit();
 		KinematicUnit* GetUnit(int id);
 

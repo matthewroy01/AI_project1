@@ -37,7 +37,6 @@ Game::Game()
 	,mpLoopTimer(NULL)
 	,mpMasterTimer(NULL)
 	,mShouldExit(false)
-	,mpFont(NULL)
 	,mpSample(NULL)
 	,mBackgroundBufferID(INVALID_ID)
 	// new stuff
@@ -106,35 +105,8 @@ bool Game::init()
 		return false;
 	}
 
-	//should probably be done in the InputSystem!
-	if( !al_install_keyboard() )
-	{
-		printf( "Keyboard not installed!\n" ); 
-		return false;
-	}
-
-	//should probably be done in the InputSystem!
-	if( !al_install_mouse() )
-	{
-		printf( "Mouse not installed!\n" ); 
-		return false;
-	}
-
-	//should be somewhere else!
-	al_init_font_addon();
-	if( !al_init_ttf_addon() )
-	{
-		printf( "ttf font addon not initted properly!\n" ); 
-		return false;
-	}
-
-	//actually load the font
-	mpFont = al_load_ttf_font( "cour.ttf", 20, 0 );
-	if( mpFont == NULL )
-	{
-		printf( "ttf font file not loaded properly!\n" ); 
-		return false;
-	}
+	// initialize the inputManager so that the font can load
+	mpInputManager = new InputManager();
 
 	//show the mouse
 	if( !al_hide_mouse_cursor( mpGraphicsSystem->getDisplay() ) )
@@ -197,8 +169,6 @@ bool Game::init()
 	Vector2D pos3( 500.0f, 500.0f );
 	mpUnitManager->AddUnit(new KinematicUnit(mpEnemyArrow, pos3, 1, vel2, 0.0f, 180.0f, 100.0f), 2);
 
-	mpInputManager = new InputManager();
-
 	return true;
 }
 
@@ -223,16 +193,12 @@ void Game::cleanup()
 
 	al_destroy_sample(mpSample);
 	mpSample = NULL;
-	al_destroy_font(mpFont);
-	mpFont = NULL;
 
 	// new stuff
 	delete mpUnitManager;
 	mpUnitManager = NULL;
 	delete mpInputManager;
 	mpInputManager = NULL;
-	/*delete mpEnemyArrow;
-	mpEnemyArrow = NULL;*/
 
 	//shutdown components
 	al_uninstall_audio();
@@ -262,13 +228,16 @@ void Game::processLoop()
 	//draw units
 	mpUnitManager->UnitDraw(GRAPHICS_SYSTEM->getBackBuffer());
 
+	// get inputs
 	mpInputManager->Update();
 
+	// process messages
 	mpMessageManager->processMessagesForThisframe();
 }
 
 Game* Game::getInstance()
 {
+	// return the instance of game
 	if (gpGame != NULL)
 	{
 		return gpGame;
@@ -278,7 +247,6 @@ Game* Game::getInstance()
 
 bool Game::endLoop()
 {
-	//mpMasterTimer->start();
 	mpLoopTimer->sleepUntilElapsed( LOOP_TARGET_TIME );
 	return mShouldExit;
 }
@@ -296,19 +264,22 @@ float genRandomFloat()
 
 void Game::createArriveUnit()
 {
-	Vector2D tmpPos(mpUnitManager->GetUnit(0)->getPosition().getX() + 200, mpUnitManager->GetUnit(0)->getPosition().getY());
+	// creates a new unit with the behavior to arrive at the player
+	Vector2D tmpPos(mpUnitManager->GetUnit(0)->getPosition().getX() + SPAWN_DISTANCE_ARRIVE, mpUnitManager->GetUnit(0)->getPosition().getY());
 	Vector2D tmpVel(0.0f, 0.0f);
 	mpUnitManager->AddUnit(new KinematicUnit(mpEnemyArrow, tmpPos, 1, tmpVel, 0.0f, 180.0f, 100.0f), 1);
 }
 
 void Game::createSeekUnit()
 {
-	Vector2D tmpPos(mpUnitManager->GetUnit(0)->getPosition().getX() + 200, mpUnitManager->GetUnit(0)->getPosition().getY());
+	// creates a new unit with the behavior to seek at the player
+	Vector2D tmpPos(mpUnitManager->GetUnit(0)->getPosition().getX() + SPAWN_DISTANCE_SEEK, mpUnitManager->GetUnit(0)->getPosition().getY());
 	Vector2D tmpVel(0.0f, 0.0f);
 	mpUnitManager->AddUnit(new KinematicUnit(mpEnemyArrow, tmpPos, 1, tmpVel, 0.0f, 180.0f, 100.0f), 2);
 }
 
 void Game::deleteRandomUnit()
 {
+	// calls the unit manager to delete a random unit
 	mpUnitManager->RemoveRandomUnit();
 }
